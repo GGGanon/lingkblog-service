@@ -1,0 +1,6 @@
+FLASK_ENV = 'development'
+DEBUG = True
+
+# JWT
+SECRET_KEY = '7PXsHcHGfa4e3kEs8Rvcv8ymjI0UeauX'
+JWT_LEEWAY = 604800
