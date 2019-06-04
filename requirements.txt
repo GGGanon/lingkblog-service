@@ -8,6 +8,9 @@ decorator==4.4.0
 defusedxml==0.6.0
 entrypoints==0.3
 Flask==1.0.3
+Flask-API==1.1
+Flask-JWT==0.3.2
+Flask-WTF==0.14.2
 ipykernel==5.1.1
 ipython==7.5.0
 ipython-genutils==0.2.0
@@ -37,6 +40,7 @@ prometheus-client==0.6.0
 prompt-toolkit==2.0.9
 ptyprocess==0.6.0
 Pygments==2.4.0
+PyJWT==1.4.2
 pylint==2.3.1
 pyrsistent==0.15.2
 python-dateutil==2.8.0
@@ -54,3 +58,4 @@ webencodings==0.5.1
 Werkzeug==0.15.4
 widgetsnbextension==3.4.2
 wrapt==1.11.1
+WTForms==2.2.1
