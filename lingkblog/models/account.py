@@ -3,14 +3,16 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-05 12:23:31
-@LastEditTime: 2019-06-05 18:30:12
+@LastEditTime: 2019-06-06 00:40:28
 '''
 from sqlalchemy import Column, Integer, String
-from app import db
 import json
 
+from lingkblog.models.base import Base
+from lingkblog import db
 
-class Account(db.Model):
+
+class Account(Base, db.Model):
     __tablename__ = 'accounts'
     id            = Column(Integer, primary_key=True)
     name          = Column(String(12))
