@@ -3,11 +3,12 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-05 14:18:19
+@LastEditTime: 2019-06-06 00:27:39
 '''
 from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 
 def create_app(test_config=None):
     '''
@@ -17,6 +18,7 @@ def create_app(test_config=None):
     '''
     # 创建一个 Flask 实例
     app = Flask(__name__, instance_relative_config=True)
+    db.init_app(app)
 
     # test
     # @app.route("/hello")

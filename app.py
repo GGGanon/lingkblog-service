@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 01:43:27
-@LastEditTime: 2019-06-05 15:06:47
+@LastEditTime: 2019-06-06 00:26:56
 '''
 from lingkblog import create_app
 from lingkblog.middleware import auth
@@ -38,7 +38,6 @@ import sqlite3
 #         g.db.close()
 
 app = create_app()
-db = SQLAlchemy(app)
 
 if __name__ == "__main__":
     app.run()
