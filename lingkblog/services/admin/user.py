@@ -3,19 +3,22 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-03 23:03:33
-@LastEditTime: 2019-06-05 14:11:51
+@LastEditTime: 2019-06-06 01:34:15
 '''
 from lingkblog.common.jwt_auth import JWTAuth
 from lingkblog.services.base import Base as BaseService
 from lingkblog.common.validators.login_form import LoginForm
+from lingkblog.common.validators.store_account_form import StoreAccountForm
+from lingkblog.models.account import Account
 from flask_api import status
+from lingkblog import db
 import time
 
 
 class User(BaseService):
-    def __init__(self, request):
-        super().__init__()
-        self.request = request
+    # def __init__(self, request):
+    #     super().__init__()
+    #     self.request = request
 
     def login(self):
         '''
@@ -29,7 +32,7 @@ class User(BaseService):
         if login_form.validate() == False:
             return self.return_error(status.HTTP_400_BAD_REQUEST, login_form.errors)
 
-        email = self.request.form['email']
+        email    = self.request.form['email']
         password = self.request.form['password']
         
         # TODO: 暂为测试用，后续补充验证逻辑

@@ -3,12 +3,15 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-03 23:19:33
-@LastEditTime: 2019-06-04 00:40:56
+@LastEditTime: 2019-06-06 00:52:59
 '''
 from flask import jsonify
 import json
 
 class Base():
+    def __init__(self, request):
+        self.request = request
+    
     def return_json(self, body={}):
         '''
         @descripttion: 返回 JSON 数据
