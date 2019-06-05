@@ -3,10 +3,11 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-05 12:23:31
-@LastEditTime: 2019-06-05 14:20:24
+@LastEditTime: 2019-06-05 18:30:12
 '''
 from sqlalchemy import Column, Integer, String
 from app import db
+import json
 
 
 class Account(db.Model):
@@ -18,3 +19,12 @@ class Account(db.Model):
     role_id       = Column(Integer)
     scope         = Column(String(250))
     status        = Column(Integer)
+
+    def __init__(self, name, email, password, role_id, scope=dict(), status=1):
+        self.name     = name
+        self.email    = email
+        # TODO: 加密处理
+        self.password = password
+        self.role_id  = role_id
+        self.scope    = json.dumps(scope) # json格式存储
+        self.status   = status
