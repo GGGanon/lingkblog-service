@@ -3,9 +3,10 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-02 15:42:54
+@LastEditTime: 2019-06-05 14:18:19
 '''
-from flask import Flask
+from flask import Flask, g
+from flask_sqlalchemy import SQLAlchemy
 
 
 def create_app(test_config=None):
@@ -18,14 +19,17 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     # test
-    @app.route("/hello")
-    def hello():
-        return "Hello, LingKBlog!"
+    # @app.route("/hello")
+    # def hello():
+    #     return "Hello, LingKBlog!"
 
     # 路由注册
     from lingkblog.routes.admin import user
     from lingkblog.routes.admin import account
     app.register_blueprint(user.bp)
     app.register_blueprint(account.bp)
+
+    # 加载配置文件
+    app.config.from_object('config')
 
     return app
