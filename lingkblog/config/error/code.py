@@ -3,9 +3,11 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 12:37:42
-@LastEditTime: 2019-06-06 13:10:51
+@LastEditTime: 2019-06-06 14:07:57
 '''
 
 error_code = {
-    'validate_err': 40001100
+    'validate_err': 40001100,
+    # account 模块
+    'email_already_exists': 40003001,
 }
