@@ -3,11 +3,12 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-06 11:24:04
+@LastEditTime: 2019-06-06 18:31:31
 '''
 from flask import Flask, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from lingkblog.exceptions.api_exception import APIException
+
 
 db = SQLAlchemy()
 # 创建一个 Flask 实例
@@ -30,11 +31,16 @@ def create_app(test_config=None):
     # 路由注册
     from lingkblog.routes.admin import user
     from lingkblog.routes.admin import account
+    from lingkblog.routes.admin import site
     app.register_blueprint(user.bp)
     app.register_blueprint(account.bp)
+    app.register_blueprint(site.bp)
 
     # 加载配置文件
     app.config.from_object('config')
+
+    # 加载权限验证中间件
+    # app.wsgi_app = AuthMiddleware(app)
 
     return app
 
