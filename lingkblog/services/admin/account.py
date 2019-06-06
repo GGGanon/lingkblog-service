@@ -18,6 +18,7 @@ class Account(BaseService):
         name     = self.request.form['name']
         email    = self.request.form['email']
         password = BcryptPassword.encode_password(self.request.form['password'])
+        # TODO：校验合法性
         role_id  = self.request.form['role_id']
         status   = self.request.form['status']
 
