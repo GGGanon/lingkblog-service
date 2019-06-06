@@ -9,7 +9,7 @@ from flask_api import status as http_status
 
 
 class Account(BaseService):
-    
+
     def store(self):
         store_account_form = StoreAccountForm(self.request.form)
         if not store_account_form.validate():
@@ -23,7 +23,7 @@ class Account(BaseService):
 
         # 判断 email 是否已存在
         if AccountModel.query.filter_by(email=email).first():
-            raise APIException(err_key='email_already_exists')
+            raise APIException(err_key='email_already_exist')
 
         # 新增数据库入
         account_obj = AccountModel(name=name, email=email, password=password, role_id=role_id, status=status)
