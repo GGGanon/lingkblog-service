@@ -3,12 +3,12 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 10:42:35
-@LastEditTime: 2019-06-06 11:21:01
+@LastEditTime: 2019-06-06 11:45:30
 '''
 class APIException(Exception):
-    def __init__(self, status_code=400, err_code=0, err_msg=''):
+    def __init__(self, http_status_code=400, err_code=0, err_msg=''):
         super().__init__()
-        self.status_code = status_code
+        self.status_code = http_status_code
         self.err_code = err_code
         self.err_msg = err_msg
 
