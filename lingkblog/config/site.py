@@ -3,9 +3,10 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 15:37:17
-@LastEditTime: 2019-06-06 15:59:24
+@LastEditTime: 2019-06-06 23:46:34
 '''
 
+role_ids = [10, 20]
 
 roles = [
     {
