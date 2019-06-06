@@ -3,12 +3,15 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-06 00:27:39
+@LastEditTime: 2019-06-06 11:24:04
 '''
-from flask import Flask, g
+from flask import Flask, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from lingkblog.exceptions.api_exception import APIException
 
 db = SQLAlchemy()
+# 创建一个 Flask 实例
+app = Flask(__name__, instance_relative_config=True)
 
 def create_app(test_config=None):
     '''
@@ -16,8 +19,7 @@ def create_app(test_config=None):
     @param {type} 
     @return: Flask 实例
     '''
-    # 创建一个 Flask 实例
-    app = Flask(__name__, instance_relative_config=True)
+    # app = Flask(__name__, instance_relative_config=True)
     db.init_app(app)
 
     # test
@@ -35,3 +37,14 @@ def create_app(test_config=None):
     app.config.from_object('config')
 
     return app
+
+@app.errorhandler(APIException)
+def handle_api_exception(error):
+    '''
+    @description: 错误统一处理方法
+    @param : error 异常
+    @return: resposne 返回值
+    '''
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
