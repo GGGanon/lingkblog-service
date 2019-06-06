@@ -3,12 +3,14 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-03 23:39:17
-@LastEditTime: 2019-06-05 14:21:03
+@LastEditTime: 2019-06-06 18:31:09
 '''
 import jwt
 import datetime
 from flask import current_app as app
 from config import JWT_LEEWAY, SECRET_KEY
+
+from lingkblog.exceptions.api_exception import APIException
 
 
 class JWTAuth():
@@ -37,3 +39,17 @@ class JWTAuth():
             return jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
         except Exception as e:
             return e
+
+    @staticmethod
+    def decode_access_token(access_token):
+        try:
+            payload = jwt.decode(access_token, SECRET_KEY)
+            if 'data' in payload and 'id' in payload['data']:
+                return payload
+            else:
+                raise APIException(err_key='invalid_token')
+        except jwt.ExpiredSignatureError:
+            # Token 过期
+            raise APIException(err_key='expired_token')
+        except jwt.InvalidTokenError:
+            raise APIException(err_key='invalid_token')
