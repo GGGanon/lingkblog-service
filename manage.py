@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-05 14:40:45
-@LastEditTime: 2019-06-06 00:41:43
+@LastEditTime: 2019-06-07 12:40:40
 '''
 from flask import Flask
 from flask_script import Manager
@@ -14,6 +14,9 @@ from app import app
 
 # 导入相关模型
 from lingkblog.models.account import Account
+from lingkblog.models.article import Article
+from lingkblog.models.operation import Operation
+from lingkblog.models.visit import Visit
 
 # app = Flask(__name__)
 # app.config.from_object('config')
