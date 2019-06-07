@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-05 12:23:31
-@LastEditTime: 2019-06-06 00:40:28
+@LastEditTime: 2019-06-07 11:22:35
 '''
 from sqlalchemy import Column, Integer, String
 import json
@@ -20,6 +20,7 @@ class Account(Base, db.Model):
     password      = Column(String(50))
     role_id       = Column(Integer)
     scope         = Column(String(250))
+    # TODO: 设置默认值
     status        = Column(Integer)
 
     def __init__(self, name, email, password, role_id, scope=dict(), status=1):
