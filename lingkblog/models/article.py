@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 11:12:59
-@LastEditTime: 2019-06-07 17:38:40
+@LastEditTime: 2019-06-07 22:01:36
 '''
 from sqlalchemy import Column, Integer, String, Text, JSON
 
@@ -21,10 +21,10 @@ class Article(Base, db.Model):
     content          = Column(Text, comment='文章主体内容')
     content_markdown = Column(Text, comment='Markdown 文本内容，当 content_type=1 时存在')
     word_count       = Column(Integer, comment='文章字数')
-    read             = Column(Integer, comment='阅读次数')
+    read             = Column(Integer, default=0, comment='阅读次数')
     category_id      = Column(Integer, comment='所属分类')
     tags             = Column(JSON, comment='标签')
     # TODO: 待定，是否需要冗余
     # like          = Column(Integer, comment='点赞次数')
     # 缩略图
-    status        = Column(Integer, comment='文章状态。1-已发布，2-未发布，3-已撤回')
+    status        = Column(Integer, default=2, comment='文章状态。1-已发布，2-未发布，3-已撤回')

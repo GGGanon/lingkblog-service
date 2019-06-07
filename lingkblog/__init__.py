@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-06 18:31:31
+@LastEditTime: 2019-06-07 21:56:36
 '''
 from flask import Flask, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -32,9 +32,11 @@ def create_app(test_config=None):
     from lingkblog.routes.admin import user
     from lingkblog.routes.admin import account
     from lingkblog.routes.admin import site
+    from lingkblog.routes.admin import article
     app.register_blueprint(user.bp)
     app.register_blueprint(account.bp)
     app.register_blueprint(site.bp)
+    app.register_blueprint(article.bp)
 
     # 加载配置文件
     app.config.from_object('config')
