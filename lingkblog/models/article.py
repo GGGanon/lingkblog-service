@@ -3,9 +3,9 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 11:12:59
-@LastEditTime: 2019-06-07 12:14:02
+@LastEditTime: 2019-06-07 12:52:21
 '''
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, JSON
 
 from lingkblog import db
 from lingkblog.models.base import Base
@@ -21,7 +21,7 @@ class Article(Base, db.Model):
     word_count    = Column(Integer, comment='文章字数')
     read          = Column(Integer, comment='阅读次数')
     category_id   = Column(Integer, comment='所属分类')
-    tags          = Column(String(99), comment='标签')
+    tags          = Column(JSON, comment='标签')
     # TODO: 待定，是否需要冗余
     # like          = Column(Integer, comment='点赞次数')
     # 缩略图
