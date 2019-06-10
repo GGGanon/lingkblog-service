@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 15:40:11
-@LastEditTime: 2019-06-10 17:14:59
+@LastEditTime: 2019-06-10 20:29:02
 '''
 from lingkblog import db
 from lingkblog.config import site
@@ -58,5 +58,35 @@ class Site(Base):
             'name': name
         })
         
-    def get_article_category(self):
-        pass
+    def index_article_category(self):
+        '''
+        @descripttion: 获取文章分类列表
+        @return: 
+        '''
+        article_category_objs = ArticleCategoryModel.query.all()
+        article_category_list = list()
+        for article_category_obj in article_category_objs:
+            article_category_list.append({
+                'id': article_category_obj.id,
+                'name': article_category_obj.name,
+            })
+        return self.return_success(article_category_list)
+
+    def update_article_category(self, id):
+        '''
+        @descripttion: 更新文章类型名称
+        @param path int id 文章类型ID
+        @return: 
+        '''
+        # 参数验证
+        store_article_category_form = StoreArticleCategoryForm(self.request.form)
+        if not store_article_category_form.validate():
+            raise APIException(err_msg=store_article_category_form.errors, err_key='validate_err')
+            
+        name = self.request.form['name']
+        article_category_obj = ArticleCategoryModel.query.filter_by(id=id).update({'name': name})
+        db.session.commit()
+        return self.return_success({
+            'id': id,
+            'name': name,
+        })

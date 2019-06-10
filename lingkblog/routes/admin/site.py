@@ -9,8 +9,17 @@ def menus():
     site = SiteService(request)
     return site.get_menus()
 
-@bp.route('/articles/categories', methods=['GET', 'POST', 'PATCH'])
+@bp.route('/articles/categories', methods=['GET', 'POST'])
 def article_category():
     site = SiteService(request)
     if request.method == 'POST':
+        # 新增文章分类
         return site.store_article_category()
+    if request.method == 'GET':
+        # 获取文章分类列表
+        return site.index_article_category()
+
+@bp.route('/articles/categories/<int:id>', methods=['PUT'])
+def update_article_category(id):
+    site = SiteService(request)
+    return site.update_article_category(id)
