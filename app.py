@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 01:43:27
-@LastEditTime: 2019-06-06 18:41:46
+@LastEditTime: 2019-06-10 09:48:56
 '''
 from lingkblog import create_app
 from lingkblog.common.jwt_auth import JWTAuth
@@ -12,7 +12,7 @@ from lingkblog.models.account import Account as AccountModel
 
 from flask_sqlalchemy import SQLAlchemy
 # from config import DATABASE
-from flask import g, request
+from flask import g, request, make_response
 import sqlite3
 
 
@@ -34,6 +34,19 @@ def check_auth_token():
         g.account_id  = account_id
         g.account_obj = account_obj
 
+@app.after_request
+def open_cors(response):
+    '''
+    @descripttion: 开启跨域调试
+    @param {type} response
+    @return: response
+    '''
+    # TODO: 区分正式与测试环境
+    response = make_response(response)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST'
+    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    return response
         
 if __name__ == "__main__":
     app.run()
