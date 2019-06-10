@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-05 14:40:45
-@LastEditTime: 2019-06-07 12:40:40
+@LastEditTime: 2019-06-10 17:01:29
 '''
 from flask import Flask
 from flask_script import Manager
@@ -17,6 +17,7 @@ from lingkblog.models.account import Account
 from lingkblog.models.article import Article
 from lingkblog.models.operation import Operation
 from lingkblog.models.visit import Visit
+from lingkblog.models.article_category import ArticleCategory
 
 # app = Flask(__name__)
 # app.config.from_object('config')
