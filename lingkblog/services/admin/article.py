@@ -1,13 +1,43 @@
+'''
+@Descripttion: 文章控制器
+@version: v1.0
+@Author: JalanJiang
+@Date: 2019-06-07 21:43:07
+@LastEditTime: 2019-06-10 16:31:03
+'''
+from flask import g
+
+from lingkblog import db
 from lingkblog.services.base import Base
 from lingkblog.models.article import Article as ArticleModel
-from lingkblog import db
-
-from flask import g
 
 
 class Admin(Base):
 
-    def get_article_list(self):
+    def index(self):
+        '''
+        @descripttion: 获取文章列表
+        @param query string title        文章标题
+        @param query int    content_type 文章分类ID
+        @param query string tag          标签
+        @return: 
+        '''
+        pass
+
+    def show(self):
+        '''
+        @descripttion: 获取文章详情
+        @param path int artcile_id 文章ID
+        @return: 
+        '''
+        pass
+
+    def store(self):
+        '''
+        @descripttion: 发布文章
+        @param {type} 
+        @return: 
+        '''
         # TODO: 参数验证
 
         account_id       = g.account_id
@@ -21,6 +51,7 @@ class Admin(Base):
         category_id = self.request.form['category_id']
         tags        = self.request.form['tags']
 
+        # 新增文章
         article_obj = ArticleModel(
             account_id=account_id,
             title=title,
@@ -50,6 +81,12 @@ class Admin(Base):
             'status': article_obj.status
         })
 
-
+    def delete(self):
+        '''
+        @descripttion: 删除文章
+        @param path int 文章ID
+        @return: 
+        '''
+        pass
 
 
