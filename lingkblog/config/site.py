@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 15:37:17
-@LastEditTime: 2019-06-06 23:46:34
+@LastEditTime: 2019-06-11 23:24:57
 '''
 
 role_ids = [10, 20]
@@ -20,7 +20,7 @@ roles = [
 ]
 
 role_menus = {
-    10: ['article', 'site', 'account'],
+    10: ['article', 'site', 'account', 'dashboard'],
     20: ['article']
 }
 
@@ -43,6 +43,12 @@ menus = {
         'title': '账号管理',
         'path': '/accounts',
         'icon': '',
+    },
+    'dashboard': {
+        "icon": "",
+        "name": "dashboard",
+        "path": "/dashboard",
+        "title": "仪表盘"
     },
     'site': {
         'name': 'site',
