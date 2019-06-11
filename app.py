@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 01:43:27
-@LastEditTime: 2019-06-11 22:27:31
+@LastEditTime: 2019-06-11 22:36:54
 '''
 from lingkblog import create_app
 from lingkblog.common.jwt_auth import JWTAuth
@@ -18,21 +18,21 @@ import sqlite3
 
 app = create_app()
 
-# @app.before_request
-# def check_auth_token():
-#     special_route = ['/admin-api/users/token']
-#     if request.path not in special_route:
-#         access_token = request.headers.get('Authorization')
-#         payload      = JWTAuth.decode_access_token(access_token)
-#         account_id   = payload['data']['id']
+@app.before_request
+def check_auth_token():
+    special_route = ['/admin-api/users/token']
+    if request.path not in special_route:
+        access_token = request.headers.get('Authorization')
+        payload      = JWTAuth.decode_access_token(access_token)
+        account_id   = payload['data']['id']
 
-#         # 判断用户是否存在
-#         account_obj = AccountModel.query.filter_by(id=account_id).first()
-#         if account_obj is None:
-#             raise APIException(err_key='invalid_token')
+        # 判断用户是否存在
+        account_obj = AccountModel.query.filter_by(id=account_id).first()
+        if account_obj is None:
+            raise APIException(err_key='invalid_token')
 
-#         g.account_id  = account_id
-#         g.account_obj = account_obj
+        g.account_id  = account_id
+        g.account_obj = account_obj
 
 @app.after_request
 def open_cors(response):
