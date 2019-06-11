@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 01:43:27
-@LastEditTime: 2019-06-11 22:36:54
+@LastEditTime: 2019-06-11 22:47:49
 '''
 from lingkblog import create_app
 from lingkblog.common.jwt_auth import JWTAuth
@@ -21,7 +21,7 @@ app = create_app()
 @app.before_request
 def check_auth_token():
     special_route = ['/admin-api/users/token']
-    if request.path not in special_route:
+    if request.method != 'OPTIONS' and request.path not in special_route:
         access_token = request.headers.get('Authorization')
         payload      = JWTAuth.decode_access_token(access_token)
         account_id   = payload['data']['id']
