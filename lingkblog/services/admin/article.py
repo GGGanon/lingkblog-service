@@ -3,13 +3,15 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-10 16:31:03
+@LastEditTime: 2019-06-11 11:07:20
 '''
 from flask import g
 
 from lingkblog import db
 from lingkblog.services.base import Base
 from lingkblog.models.article import Article as ArticleModel
+from lingkblog.exceptions.api_exception import APIException
+from lingkblog.common.validators.store_article_form import StoreArticleForm
 
 
 class Admin(Base):
@@ -38,7 +40,10 @@ class Admin(Base):
         @param {type} 
         @return: 
         '''
-        # TODO: 参数验证
+        # 参数验证
+        store_article_form = StoreArticleForm(self.request.form)
+        if not store_article_form.validate():
+            raise APIException(err_msg=store_article_form.errors, err_key='validate_err')
 
         account_id       = g.account_id
         title            = self.request.form['title']
