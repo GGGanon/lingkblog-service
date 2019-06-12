@@ -3,9 +3,10 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-12 15:26:24
+@LastEditTime: 2019-06-12 17:08:39
 '''
 from flask import g, jsonify
+from sqlalchemy.sql import and_
 import json
 
 from lingkblog import db
@@ -24,11 +25,44 @@ class Article(Base):
         @param query int    page         页码
         @param query int    limit        每页数量
         @param query string title        文章标题
-        @param query int    content_type 文章分类ID
-        @param query string tag          标签
+        @param query int    category_id  文章分类ID
+        @param query string tags         标签（待定）
         @return: 
         '''
-        pass
+        page        = int(self.request.args.get('page', 1))
+        limit       = int(self.request.args.get('limit', 20))
+        title       = self.request.args.get('title', '')
+        category_id = int(self.request.args.get('category_id', 0))
+
+        condition = False
+
+        if title:
+            condition = and_(condition, ArticleModel.title == title)
+        if category_id:
+            condition = and_(condition, ArticleModel.category_id == category_id)
+
+        if condition:
+            article_pages = ArticleModel.query.filter(condition).paginate(page=page, per_page=limit)
+        else:
+            article_pages = ArticleModel.query.paginate(page=page, per_page=limit)
+
+        articles = list()
+        for article_obj in article_pages.items:
+            articles.append({
+                'id': article_obj.id,
+                'title': article_obj.title,
+                'summary': article_obj.summary,
+                'created_at': article_obj.created_at,
+                'status': article_obj.status,
+                'category_id': article_obj.category_id,
+                'tags': article_obj.tags
+            })
+            
+        return self.return_success({
+            'pages': article_pages.pages,
+            'total': article_pages.total,
+            'articles': articles
+        })
 
     def show(self, id):
         '''
