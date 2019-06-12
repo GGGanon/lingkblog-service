@@ -3,11 +3,12 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-07 21:56:36
+@LastEditTime: 2019-06-12 12:46:03
 '''
 from flask import Flask, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from lingkblog.exceptions.api_exception import APIException
+import wtforms_json
 
 
 db = SQLAlchemy()
@@ -22,6 +23,7 @@ def create_app(test_config=None):
     '''
     # app = Flask(__name__, instance_relative_config=True)
     db.init_app(app)
+    wtforms_json.init()
 
     # test
     # @app.route("/hello")

@@ -3,9 +3,10 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-11 11:07:20
+@LastEditTime: 2019-06-12 14:27:02
 '''
-from flask import g
+from flask import g, jsonify
+import json
 
 from lingkblog import db
 from lingkblog.services.base import Base
@@ -14,7 +15,7 @@ from lingkblog.exceptions.api_exception import APIException
 from lingkblog.common.validators.store_article_form import StoreArticleForm
 
 
-class Admin(Base):
+class Article(Base):
 
     def index(self):
         '''
@@ -41,20 +42,21 @@ class Admin(Base):
         @return: 
         '''
         # 参数验证
-        store_article_form = StoreArticleForm(self.request.form)
+        store_article_form = StoreArticleForm.from_json(self.request.json)
         if not store_article_form.validate():
             raise APIException(err_msg=store_article_form.errors, err_key='validate_err')
 
         account_id       = g.account_id
-        title            = self.request.form['title']
-        summary          = self.request.form['summary']
-        content_type     = self.request.form['content_type']
-        content          = self.request.form['content']
-        content_markdown = self.request.form['content_markdown']
+        title            = self.request.json['title']
+        summary          = self.request.json['summary']
+        content_type     = self.request.json['content_type']
+        content          = self.request.json['content']
+        content_markdown = self.request.json['content_markdown']
         # TODO: word_count 计算
         word_count  = 0
-        category_id = self.request.form['category_id']
-        tags        = self.request.form['tags']
+        category_id = self.request.json['category_id']
+        tags        = self.request.json['tags']
+        status      = self.request.json['status'] if 'status' in self.request.json else ArticleModel.status_draft
 
         # 新增文章
         article_obj = ArticleModel(

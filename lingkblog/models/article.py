@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 11:12:59
-@LastEditTime: 2019-06-11 11:00:09
+@LastEditTime: 2019-06-12 14:24:24
 '''
 from sqlalchemy import Column, Integer, String, Text, JSON
 
@@ -28,3 +28,19 @@ class Article(Base, db.Model):
     # like          = Column(Integer, comment='点赞次数')
     # 缩略图
     status        = Column(Integer, default=2, comment='文章状态。1-已发布，2-未发布，3-已撤回')
+
+    _status_publish = 1
+    _status_draft   = 2
+    _status_recall  = 3
+
+    @property
+    def status_publish(self):
+        return Article._status_publish
+
+    @property
+    def status_draft(self):
+        return Article._status_draft
+
+    @property
+    def status_recall(self):
+        return Article._status_recall
