@@ -73,7 +73,7 @@ class Article(Base):
         '''
         article_obj = ArticleModel.query.filter_by(id=id).first()
         if not article_obj:
-            raise APIException(err_key='article_not_found')
+            raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
         
         return self.return_success({
             'id'              : article_obj.id,
@@ -150,7 +150,7 @@ class Article(Base):
         article_obj = ArticleModel.query.filter_by(id=id).first()
         if not article_obj:
             # 文章不存在
-            pass
+            raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
         article_obj.deleted_at = datetime.datetime.now()
         db.session.commit()
         return self.return_success()
