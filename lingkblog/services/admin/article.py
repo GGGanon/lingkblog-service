@@ -3,10 +3,11 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-12 17:43:03
+@LastEditTime: 2019-06-12 18:18:47
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
+from flask_api import status as http_status
 import json
 import datetime
 
@@ -136,6 +137,53 @@ class Article(Base):
             'content_markdown': article_obj.content_markdown,
             'word_count': article_obj.word_count,
             'read': article_obj.read,
+            'category_id': article_obj.category_id,
+            'tags': article_obj.tags,
+            'status': article_obj.status
+        })
+
+    def update(self, id):
+        '''
+        @description: 更新文章
+        @param : path int id 文章ID
+        @return: 更新后的文章资源数据
+        '''
+        # 参数验证
+
+        article_obj = ArticleModel.query.filter_by(id=id).first()
+        if not article_obj:
+            raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
+
+        title            = self.request.json['title']
+        summary          = self.request.json['summary']
+        content_type     = self.request.json['content_type']
+        content          = self.request.json['content']
+        content_markdown = self.request.json['content_markdown']
+        # TODO: word_count 计算
+        word_count  = 0
+        category_id = self.request.json['category_id']
+        tags        = self.request.json['tags']
+        status      = self.request.json['status'] if 'status' in self.request.json else ArticleModel.status_draft
+        # TODO: 是否增加更新人 updated_user
+
+        article_obj.title = title
+        article_obj.summary = summary
+        article_obj.content_type = content_type
+        article_obj.content = content
+        article_obj.content_markdown = content_markdown
+        article_obj.word_count = word_count
+        article_obj.category_id = category_id
+        article_obj.tags = tags
+        article_obj.status = status
+        db.session.commit()
+
+        return self.return_success({
+            'title': article_obj.title,
+            'summary': article_obj.summary,
+            'content_type': article_obj.content_type,
+            'content': article_obj.content,
+            'content_markdown': article_obj.content_markdown,
+            'word_count': article_obj.word_count,
             'category_id': article_obj.category_id,
             'tags': article_obj.tags,
             'status': article_obj.status
