@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-03 23:03:33
-@LastEditTime: 2019-06-06 14:58:46
+@LastEditTime: 2019-06-12 16:12:33
 '''
 from lingkblog.common.jwt_auth import JWTAuth
 from lingkblog.common.validators.login_form import LoginForm
@@ -28,16 +28,16 @@ class User(BaseService):
         @return: 
         '''
         # 请求参数验证
-        login_form = LoginForm(self.request.form)
+        login_form = LoginForm.from_json(self.request.json)
         if not login_form.validate():
             raise APIException(err_key='validate_err', err_msg=login_form.errors)
 
-        email    = self.request.form['email']
-        password = self.request.form['password']
+        email    = self.request.json['email']
+        password = self.request.json['password']
 
         # 判断用户是否存在
         account_obj = AccountModel.query.filter_by(email=email).first()
-        if account_obj is None:
+        if not account_obj:
             # 用户不存在
             raise APIException(err_key='account_not_found')
 

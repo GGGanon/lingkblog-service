@@ -11,16 +11,16 @@ from flask_api import status as http_status
 class Account(BaseService):
 
     def store(self):
-        store_account_form = StoreAccountForm(self.request.form)
+        store_account_form = StoreAccountForm.from_json(self.request.json)
         if not store_account_form.validate():
             raise APIException(err_msg=store_account_form.errors, err_key='validate_err')
 
-        name     = self.request.form['name']
-        email    = self.request.form['email']
-        password = BcryptPassword.encode_password(self.request.form['password'])
+        name     = self.request.json['name']
+        email    = self.request.json['email']
+        password = BcryptPassword.encode_password(self.request.json['password'])
         # TODO：校验合法性
-        role_id  = self.request.form['role_id']
-        status   = self.request.form['status']
+        role_id  = self.request.json['role_id']
+        status   = self.request.json['status']
 
         # 判断 email 是否已存在
         if AccountModel.query.filter_by(email=email).first():

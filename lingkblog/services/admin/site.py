@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 15:40:11
-@LastEditTime: 2019-06-10 20:29:02
+@LastEditTime: 2019-06-12 16:18:03
 '''
 from lingkblog import db
 from lingkblog.config import site
@@ -39,11 +39,11 @@ class Site(Base):
         @return: 
         '''
         # 参数验证
-        store_article_category_form = StoreArticleCategoryForm(self.request.form)
+        store_article_category_form = StoreArticleCategoryForm.from_json(self.request.json)
         if not store_article_category_form.validate():
             raise APIException(err_msg=store_article_category_form.errors, err_key='validate_err')
         
-        name = self.request.form['name']
+        name = self.request.json['name']
         # 判断分类名称是否已存在
         if ArticleCategoryModel.query.filter_by(name=name).first():
             raise APIException(err_key='site_article_category_exist')
@@ -79,11 +79,11 @@ class Site(Base):
         @return: 
         '''
         # 参数验证
-        store_article_category_form = StoreArticleCategoryForm(self.request.form)
+        store_article_category_form = StoreArticleCategoryForm.from_json(self.request.json)
         if not store_article_category_form.validate():
             raise APIException(err_msg=store_article_category_form.errors, err_key='validate_err')
             
-        name = self.request.form['name']
+        name = self.request.json['name']
         article_category_obj = ArticleCategoryModel.query.filter_by(id=id).update({'name': name})
         db.session.commit()
         return self.return_success({
