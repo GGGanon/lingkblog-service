@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-03 23:19:33
-@LastEditTime: 2019-06-06 15:04:20
+@LastEditTime: 2019-06-12 17:46:35
 '''
 from flask import jsonify, Response
 from lingkblog import app
@@ -19,7 +19,10 @@ class Base():
         @param dict body 数据主体
         @return: JSON 结果
         '''
-        return jsonify(body)
+        if body:
+            return jsonify(body)
+        else:
+            return ('')
 
     def return_error(self, http_status_code, err_code=0, err_msg=''):
         '''
