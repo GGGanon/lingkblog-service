@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 12:53:50
-@LastEditTime: 2019-06-10 17:14:46
+@LastEditTime: 2019-06-12 15:24:11
 '''
 
 error_message = {
@@ -14,6 +14,8 @@ error_message = {
     11001: '账号不存在',
     
     12001: '邮箱已存在',
+
+    13001: '文章不存在',
 
     14001: '文章分类已存在',
 }

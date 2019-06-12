@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-12 14:27:02
+@LastEditTime: 2019-06-12 15:26:24
 '''
 from flask import g, jsonify
 import json
@@ -13,6 +13,7 @@ from lingkblog.services.base import Base
 from lingkblog.models.article import Article as ArticleModel
 from lingkblog.exceptions.api_exception import APIException
 from lingkblog.common.validators.store_article_form import StoreArticleForm
+from lingkblog.exceptions.api_exception import APIException
 
 
 class Article(Base):
@@ -20,6 +21,8 @@ class Article(Base):
     def index(self):
         '''
         @descripttion: 获取文章列表
+        @param query int    page         页码
+        @param query int    limit        每页数量
         @param query string title        文章标题
         @param query int    content_type 文章分类ID
         @param query string tag          标签
@@ -27,13 +30,28 @@ class Article(Base):
         '''
         pass
 
-    def show(self):
+    def show(self, id):
         '''
         @descripttion: 获取文章详情
         @param path int artcile_id 文章ID
         @return: 
         '''
-        pass
+        article_obj = ArticleModel.query.filter_by(id=id).first()
+        if not article_obj:
+            raise APIException(err_key='article_not_found')
+        
+        return self.return_success({
+            'id'              : article_obj.id,
+            'title'           : article_obj.title,
+            'content_type'    : article_obj.content_type,
+            'status'          : article_obj.status,
+            'word_count'      : article_obj.word_count,
+            'content'         : article_obj.content,
+            'content_markdown': article_obj.content_markdown,
+            'summary'         : article_obj.summary,
+            'tags'            : article_obj.tags,
+            'read'            : article_obj.read
+        })
 
     def store(self):
         '''

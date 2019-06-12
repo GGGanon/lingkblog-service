@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 12:37:42
-@LastEditTime: 2019-06-10 17:14:31
+@LastEditTime: 2019-06-12 15:23:58
 '''
 
 error_code = {
@@ -18,6 +18,7 @@ error_code = {
     # account模块 - 12
     'email_already_exist': 12001,
     # article 模块 - 13
+    'article_not_found': 13001,
 
     # site 模块 - 14
     'site_article_category_exist': 14001,
