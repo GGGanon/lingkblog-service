@@ -3,11 +3,12 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-12 17:08:39
+@LastEditTime: 2019-06-12 17:43:03
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
 import json
+import datetime
 
 from lingkblog import db
 from lingkblog.services.base import Base
@@ -140,12 +141,18 @@ class Article(Base):
             'status': article_obj.status
         })
 
-    def delete(self):
+    def delete(self, id):
         '''
         @descripttion: 删除文章
         @param path int 文章ID
         @return: 
         '''
-        pass
+        article_obj = ArticleModel.query.filter_by(id=id).first()
+        if not article_obj:
+            # 文章不存在
+            pass
+        article_obj.deleted_at = datetime.datetime.now()
+        db.session.commit()
+        return self.return_success()
 
 

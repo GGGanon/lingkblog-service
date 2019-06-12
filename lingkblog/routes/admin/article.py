@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:42:59
-@LastEditTime: 2019-06-12 15:18:28
+@LastEditTime: 2019-06-12 17:23:59
 '''
 from flask import Blueprint, request
 from lingkblog.services.admin.article import Article as ArticleService
@@ -33,5 +33,6 @@ def update_article():
     # return article.update()
 
 @bp.route('/<int:id>', methods=['DELETE'])
-def delete_article():
-    return
+def delete_article(id):
+    article = ArticleService(request)
+    return article.delete(id)

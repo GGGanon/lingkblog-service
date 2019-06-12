@@ -3,15 +3,19 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 11:12:59
-@LastEditTime: 2019-06-12 14:24:24
+@LastEditTime: 2019-06-12 17:22:51
 '''
 from sqlalchemy import Column, Integer, String, Text, JSON
 
 from lingkblog import db
 from lingkblog.models.base import Base
+from lingkblog.models.query_with_soft_delete import QueryWithSoftDelete
 
 
 class Article(Base, db.Model):
+
+    query_class = QueryWithSoftDelete
+
     __tablename__    = 'articles'
     id               = Column(Integer, primary_key=True, comment='文章ID')
     account_id       = Column(Integer, comment='发布者账号ID')
