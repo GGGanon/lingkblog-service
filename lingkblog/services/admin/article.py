@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-12 18:18:47
+@LastEditTime: 2019-06-16 01:15:08
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -17,6 +17,7 @@ from lingkblog.models.article import Article as ArticleModel
 from lingkblog.exceptions.api_exception import APIException
 from lingkblog.common.validators.store_article_form import StoreArticleForm
 from lingkblog.exceptions.api_exception import APIException
+from lingkblog.common.validators.request_articles import RequestArticles
 
 
 class Article(Base):
@@ -31,6 +32,11 @@ class Article(Base):
         @param query string tags         标签（待定）
         @return: 
         '''
+        # 请求参数验证
+        request_articles = RequestArticles(self.request.args)
+        if not request_articles.validate():
+            raise APIException(err_key='validate_err', err_msg=request_articles.errors)
+
         page        = int(self.request.args.get('page', 1))
         limit       = int(self.request.args.get('limit', 20))
         title       = self.request.args.get('title', '')
