@@ -3,13 +3,17 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-03 23:19:33
-@LastEditTime: 2019-06-12 17:46:35
+@LastEditTime: 2019-06-16 01:47:01
 '''
 from flask import jsonify, Response
 from lingkblog import app
 import json
+import time
+
 
 class Base():
+
+
     def __init__(self, request):
         self.request = request
     
@@ -42,7 +46,6 @@ class Base():
 
         return response_data, 400
 
-
     def return_success(self, data={}):
         '''
         @descripttion: 返回正确结果数据
@@ -51,3 +54,11 @@ class Base():
         '''
         # return data
         return self.return_json(data)
+
+    def datetime_to_timestamp(self, datetime):
+        '''
+        @descripttion: datetime 转 UNIX 时间戳
+        @param datetime datetime 时间
+        @return: UNIX 时间戳
+        '''
+        return time.mktime(datetime.timetuple())

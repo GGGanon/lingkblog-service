@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-16 01:15:08
+@LastEditTime: 2019-06-16 01:49:36
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -57,13 +57,14 @@ class Article(Base):
         articles = list()
         for article_obj in article_pages.items:
             articles.append({
-                'id': article_obj.id,
-                'title': article_obj.title,
-                'summary': article_obj.summary,
-                'created_at': article_obj.created_at,
-                'status': article_obj.status,
+                'id'         : article_obj.id,
+                'title'      : article_obj.title,
+                'summary'    : article_obj.summary,
+                'created_at' : self.datetime_to_timestamp(article_obj.created_at),
+                'updated_at' : self.datetime_to_timestamp(article_obj.updated_at),
+                'status'     : article_obj.status,
                 'category_id': article_obj.category_id,
-                'tags': article_obj.tags
+                'tags'       : article_obj.tags
             })
             
         return self.return_success({
@@ -92,7 +93,9 @@ class Article(Base):
             'content_markdown': article_obj.content_markdown,
             'summary'         : article_obj.summary,
             'tags'            : article_obj.tags,
-            'read'            : article_obj.read
+            'read'            : article_obj.read,
+            'created_at'      : self.datetime_to_timestamp(article_obj.created_at),
+            'updated_at'      : self.datetime_to_timestamp(article_obj.updated_at)
         })
 
     def store(self):
@@ -134,18 +137,20 @@ class Article(Base):
         db.session.commit()
 
         return self.return_success({
-            'id': article_obj.id,
-            'account_id': article_obj.account_id,
-            'title': article_obj.title,
-            'summary': article_obj.summary,
-            'content_type': article_obj.content_type,
-            'content': article_obj.content,
+            'id'              : article_obj.id,
+            'account_id'      : article_obj.account_id,
+            'title'           : article_obj.title,
+            'summary'         : article_obj.summary,
+            'content_type'    : article_obj.content_type,
+            'content'         : article_obj.content,
             'content_markdown': article_obj.content_markdown,
-            'word_count': article_obj.word_count,
-            'read': article_obj.read,
-            'category_id': article_obj.category_id,
-            'tags': article_obj.tags,
-            'status': article_obj.status
+            'word_count'      : article_obj.word_count,
+            'read'            : article_obj.read,
+            'category_id'     : article_obj.category_id,
+            'tags'            : article_obj.tags,
+            'status'          : article_obj.status,
+            'created_at'      : self.datetime_to_timestamp(article_obj.created_at),
+            'updated_at'      : self.datetime_to_timestamp(article_obj.updated_at)
         })
 
     def update(self, id):
@@ -184,15 +189,17 @@ class Article(Base):
         db.session.commit()
 
         return self.return_success({
-            'title': article_obj.title,
-            'summary': article_obj.summary,
-            'content_type': article_obj.content_type,
-            'content': article_obj.content,
+            'title'           : article_obj.title,
+            'summary'         : article_obj.summary,
+            'content_type'    : article_obj.content_type,
+            'content'         : article_obj.content,
             'content_markdown': article_obj.content_markdown,
-            'word_count': article_obj.word_count,
-            'category_id': article_obj.category_id,
-            'tags': article_obj.tags,
-            'status': article_obj.status
+            'word_count'      : article_obj.word_count,
+            'category_id'     : article_obj.category_id,
+            'tags'            : article_obj.tags,
+            'status'          : article_obj.status,
+            'created_at'      : self.datetime_to_timestamp(article_obj.created_at),
+            'updated_at'      : self.datetime_to_timestamp(article_obj.updated_at)
         })
 
     def delete(self, id):
