@@ -3,12 +3,14 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-12 12:46:03
+@LastEditTime: 2019-06-18 17:17:50
 '''
+import wtforms_json
 from flask import Flask, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
+
+from lingkblog.config.error.code import error_code
 from lingkblog.exceptions.api_exception import APIException
-import wtforms_json
 
 
 db = SQLAlchemy()
@@ -58,3 +60,24 @@ def handle_api_exception(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+
+@app.errorhandler(Exception)
+def framework_error(error):
+    '''
+    @description: 捕获全局异常
+    @param : 异常
+    @return: APIException
+    '''
+    if isinstance(error, APIException):
+        # 如果是 APIException 异常，不做处理直接抛出
+        return error
+    else:
+        # 系统级别的异常进行封装
+        code = error_code['system_err']
+        msg = error.description
+        response = jsonify({
+            'err_code': code,
+            'err_msg': msg
+        })
+        response.status_code = error.code
+        return response

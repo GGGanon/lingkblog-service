@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 12:37:42
-@LastEditTime: 2019-06-12 15:23:58
+@LastEditTime: 2019-06-18 17:16:58
 '''
 
 error_code = {
@@ -22,4 +22,7 @@ error_code = {
 
     # site 模块 - 14
     'site_article_category_exist': 14001,
+
+    # 系统拦截错误
+    'system_err': 50000,
 }
