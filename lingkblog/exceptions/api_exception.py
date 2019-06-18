@@ -3,14 +3,16 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 10:42:35
-@LastEditTime: 2019-06-06 14:05:35
+@LastEditTime: 2019-06-18 17:19:45
 '''
-from lingkblog.config.error.message import error_message
 from lingkblog.config.error.code import error_code
+from lingkblog.config.error.message import error_message
 
 
 class APIException(Exception):
-    def __init__(self, err_key, err_msg='', http_status_code=400,):
+
+    
+    def __init__(self, err_key='validate_err', err_msg='参数有误', http_status_code=400):
         super().__init__()
         # TODO: 不存在键值处理
         self.status_code = http_status_code

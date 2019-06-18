@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-16 01:49:36
+@LastEditTime: 2019-06-18 17:26:31
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -159,7 +159,7 @@ class Article(Base):
         @param : path int id 文章ID
         @return: 更新后的文章资源数据
         '''
-        # 参数验证
+        # TODO: 参数验证
 
         article_obj = ArticleModel.query.filter_by(id=id).first()
         if not article_obj:
@@ -186,6 +186,57 @@ class Article(Base):
         article_obj.category_id = category_id
         article_obj.tags = tags
         article_obj.status = status
+        db.session.commit()
+
+        return self.return_success({
+            'title'           : article_obj.title,
+            'summary'         : article_obj.summary,
+            'content_type'    : article_obj.content_type,
+            'content'         : article_obj.content,
+            'content_markdown': article_obj.content_markdown,
+            'word_count'      : article_obj.word_count,
+            'category_id'     : article_obj.category_id,
+            'tags'            : article_obj.tags,
+            'status'          : article_obj.status,
+            'created_at'      : self.datetime_to_timestamp(article_obj.created_at),
+            'updated_at'      : self.datetime_to_timestamp(article_obj.updated_at)
+        })
+
+    def partical_update(self, id):
+        '''
+        @description: 更新文章部分字段
+        @param : 
+        @return: 更新后完整的文章资源对象
+        '''
+        # body 验证
+        request_json = self.request.json
+        if not request_json:
+            raise APIException()
+
+        # 判断文章ID是否存在
+        article_obj = ArticleModel.query.filter_by(id=id).first()
+        if not article_obj:
+            raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
+        
+        if 'title' in request_json:
+            article_obj.title = request_json['title']
+        if 'summary' in request_json:
+            article_obj.summary = request_json['summary']
+        if 'content_type' in request_json:
+            article_obj.content_type = request_json['content_type']
+        if 'content' in request_json:
+            article_obj.content = request_json['content']
+        if 'content_markdown' in request_json:
+            article_obj.content_markdown = request_json['content_markdown']
+        if 'word_count' in request_json:
+            article_obj.word_count = request_json['word_count']
+        if 'category_id' in request_json:
+            article_obj.category_id = request_json['category_id']
+        if 'tags' in request_json:
+            article_obj.tags = request_json['tags']
+        if 'status' in request_json:
+            article_obj.status = request_json['status']
+
         db.session.commit()
 
         return self.return_success({
