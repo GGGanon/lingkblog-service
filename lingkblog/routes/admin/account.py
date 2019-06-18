@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 15:25:56
-@LastEditTime: 2019-06-19 00:34:23
+@LastEditTime: 2019-06-19 00:41:05
 '''
 from flask import Blueprint, request
 from lingkblog.services.admin.account import Account as AccountService
@@ -69,3 +69,8 @@ def delete_account(id):
     '''
     account_service = AccountService(request)
     return account_service.delete(id)
+
+@bp.route('/roles', methods=['GET'])
+def get_roles():
+    account_service = AccountService(request)
+    return account_service.get_roles()

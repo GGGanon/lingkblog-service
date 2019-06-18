@@ -3,13 +3,14 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-12 16:20:20
-@LastEditTime: 2019-06-19 00:35:57
+@LastEditTime: 2019-06-19 00:40:41
 '''
 import datetime
 from sqlalchemy.sql import and_
 from flask_api import status as http_status
 
 from lingkblog import db
+from lingkblog.config import role
 from lingkblog.services.base import Base as BaseService
 from lingkblog.exceptions.api_exception import APIException
 from lingkblog.models.account import Account as AccountModel
@@ -144,3 +145,11 @@ class Account(BaseService):
         account_obj.deleted_at = datetime.datetime.now()
         db.session.commit()
         return self.return_success()
+
+    def get_roles(self):
+        '''
+        @descripttion: 获取角色列表
+        @param {type} 
+        @return: 角色列表
+        '''
+        return self.return_success(role.roles)
