@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 15:25:56
-@LastEditTime: 2019-06-19 00:23:41
+@LastEditTime: 2019-06-19 00:34:23
 '''
 from flask import Blueprint, request
 from lingkblog.services.admin.account import Account as AccountService
@@ -41,14 +41,14 @@ def add_account():
     account_service = AccountService(request)
     return account_service.store()
 
-@bp.route('/<int:id>', methods=['PUT'])
-def update_account(id):
-    '''
-    @description: 修改账号资料
-    @param : 
-    @return: 
-    '''
-    pass
+# @bp.route('/<int:id>', methods=['PUT'])
+# def update_account(id):
+#     '''
+#     @description: 修改账号资料
+#     @param : 
+#     @return: 
+#     '''
+#     pass
 
 @bp.route('/<int:id>', methods=['PATCH'])
 def update_part_account(id):
@@ -57,7 +57,8 @@ def update_part_account(id):
     @param : 
     @return: 
     '''
-    pass
+    account_service = AccountService(request)
+    return account_service.partical_update(id)
 
 @bp.route('/<int:id>', methods=['DELETE'])
 def delete_account(id):

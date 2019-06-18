@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-12 16:20:20
-@LastEditTime: 2019-06-19 00:23:11
+@LastEditTime: 2019-06-19 00:35:57
 '''
 import datetime
 from sqlalchemy.sql import and_
@@ -92,6 +92,44 @@ class Account(BaseService):
             'email'  : email,
             'role_id': role_id,
             'status' : status
+        })
+
+    def partical_update(self, id):
+        '''
+        @descripttion: 更新账号部分字段
+        @param {type} 
+        @return: 修改后的账号详细信息
+        '''
+        request_json = self.request.json
+        if not request_json:
+            raise APIException()
+
+        # TODO: 参数校验
+
+        # 判断账号是否存在
+        account_obj = AccountModel.query.filter_by(id=id).first()
+        if not account_obj:
+            raise APIException(err_key='account_not_found')
+
+        if 'name' in request_json:
+            account_obj.name = request_json['name']
+        if 'email' in request_json:
+            account_obj.email = request_json['email']
+        if 'role_id' in request_json:
+            account_obj.role_id = request_json['role_id']
+        if 'status' in request_json:
+            account_obj.status = request_json['status']
+        if 'password' in request_json:
+            account_obj.password = BcryptPassword.encode_password(request_json['password'])
+
+        db.session.commit()
+        
+        return self.return_success({
+            'id'     : account_obj.id,
+            'name'   : account_obj.name,
+            'email'  : account_obj.email,
+            'role_id': account_obj.role_id,
+            'status' : account_obj.status
         })
 
     def delete(self, id):
