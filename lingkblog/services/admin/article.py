@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-18 17:26:31
+@LastEditTime: 2019-06-18 18:27:51
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -42,17 +42,13 @@ class Article(Base):
         title       = self.request.args.get('title', '')
         category_id = int(self.request.args.get('category_id', 0))
 
-        condition = False
-
+        # 构造查询
+        condition = list()
         if title:
-            condition = and_(condition, ArticleModel.title == title)
+            condition.append(ArticleModel.title.like("%" + title + "%"))
         if category_id:
-            condition = and_(condition, ArticleModel.category_id == category_id)
-
-        if condition:
-            article_pages = ArticleModel.query.filter(condition).paginate(page=page, per_page=limit)
-        else:
-            article_pages = ArticleModel.query.paginate(page=page, per_page=limit)
+            condition.append(ArticleModel.category_id == category_id)
+        article_pages = ArticleModel.query.filter(*condition).paginate(page=page, per_page=limit)
 
         articles = list()
         for article_obj in article_pages.items:
