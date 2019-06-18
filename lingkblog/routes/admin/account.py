@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 15:25:56
-@LastEditTime: 2019-06-18 17:36:16
+@LastEditTime: 2019-06-18 17:47:01
 '''
 from flask import Blueprint, request
 from lingkblog.services.admin.account import Account as AccountService
@@ -12,25 +12,6 @@ from lingkblog.services.admin.account import Account as AccountService
 bp = Blueprint('account', __name__, url_prefix='/admin-api/accounts')
 
 
-@bp.route('', methods=['POST', 'GET', 'DELETE', 'PUT'])
-def handle_accounts():
-    '''
-    @descripttion: 账号相关操作
-    @param {type} 
-    @return: 
-    '''
-    account_service = AccountService(request)
-    if request.method == 'POST':
-        # 注册新用户
-        return account_service.store()
-    if request.method == 'GET':
-        return
-    if request.method == 'PUT':
-        return
-    if request.method == 'DELETE':
-        return
-    # return "Hello, LingKBlog Account!"
-
 @bp.route('', methods=['GET'])
 def get_accounts():
     '''
@@ -38,7 +19,8 @@ def get_accounts():
     @param : 
     @return: 账号列表
     '''
-    pass
+    account_service = AccountService(request)
+    return account_service.index()
 
 @bp.route('/<int:id>', methods=['GET'])
 def get_account(id):

@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-18 17:17:50
+@LastEditTime: 2019-06-18 17:57:20
 '''
 import wtforms_json
 from flask import Flask, g, jsonify
@@ -72,12 +72,21 @@ def framework_error(error):
         # 如果是 APIException 异常，不做处理直接抛出
         return error
     else:
-        # 系统级别的异常进行封装
-        code = error_code['system_err']
-        msg = error.description
-        response = jsonify({
-            'err_code': code,
-            'err_msg': msg
-        })
-        response.status_code = error.code
-        return response
+        if not app.config['DEBUG']:
+            # 系统级别的异常进行封装
+            code = error_code['system_err']
+            msg = '未知错误'
+            if hasattr(error, 'description'):
+                msg = error.description
+            response = jsonify({
+                'err_code': code,
+                'err_msg': msg
+            })
+            if hasattr(error, 'code'):
+                response.status_code = error.code
+            else:
+                response.status_code = 400
+            return response
+        else:
+            raise error
+        
