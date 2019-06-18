@@ -3,8 +3,9 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-12 16:20:20
-@LastEditTime: 2019-06-18 18:25:16
+@LastEditTime: 2019-06-19 00:23:11
 '''
+import datetime
 from sqlalchemy.sql import and_
 from flask_api import status as http_status
 
@@ -92,3 +93,16 @@ class Account(BaseService):
             'role_id': role_id,
             'status' : status
         })
+
+    def delete(self, id):
+        '''
+        @descripttion: 删除账号
+        @param path int id 用户ID
+        @return: 空文档
+        '''
+        account_obj = AccountModel.query.filter_by(id=id).first()
+        if not account_obj:
+            raise APIException(err_key='account_not_found')
+        account_obj.deleted_at = datetime.datetime.now()
+        db.session.commit()
+        return self.return_success()

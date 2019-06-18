@@ -3,16 +3,20 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-05 12:23:31
-@LastEditTime: 2019-06-07 11:22:35
+@LastEditTime: 2019-06-19 00:27:05
 '''
-from sqlalchemy import Column, Integer, String
 import json
+from sqlalchemy import Column, Integer, String
 
-from lingkblog.models.base import Base
 from lingkblog import db
+from lingkblog.models.base import Base
+from lingkblog.models.query_with_soft_delete import QueryWithSoftDelete
 
 
 class Account(Base, db.Model):
+
+    query_class = QueryWithSoftDelete
+
     __tablename__ = 'accounts'
     id            = Column(Integer, primary_key=True)
     name          = Column(String(12))

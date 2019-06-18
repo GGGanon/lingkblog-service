@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 15:25:56
-@LastEditTime: 2019-06-18 17:47:01
+@LastEditTime: 2019-06-19 00:23:41
 '''
 from flask import Blueprint, request
 from lingkblog.services.admin.account import Account as AccountService
@@ -66,4 +66,5 @@ def delete_account(id):
     @param : 
     @return: 
     '''
-    pass
+    account_service = AccountService(request)
+    return account_service.delete(id)
