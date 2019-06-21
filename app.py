@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 01:43:27
-@LastEditTime: 2019-06-12 12:45:47
+@LastEditTime: 2019-06-21 18:48:55
 '''
 from lingkblog import create_app
 from lingkblog.common.jwt_auth import JWTAuth
