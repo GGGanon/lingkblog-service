@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-21 18:51:07
+@LastEditTime: 2019-06-23 23:22:57
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -71,13 +71,13 @@ class Article(Base):
             'articles': articles
         })
 
-    def show(self, id):
+    def show(self, uuid):
         '''
         @descripttion: 获取文章详情
-        @param path int artcile_id 文章ID
+        @param path int uuid 文章唯一标识
         @return: 
         '''
-        article_obj = ArticleModel.query.filter_by(id=id).first()
+        article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
         if not article_obj:
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
         
@@ -156,7 +156,7 @@ class Article(Base):
             'updated_at'      : self.datetime_to_timestamp(article_obj.updated_at)
         })
 
-    def update(self, id):
+    def update(self, uuid):
         '''
         @description: 更新文章
         @param : path int id 文章ID
@@ -164,7 +164,7 @@ class Article(Base):
         '''
         # TODO: 参数验证
 
-        article_obj = ArticleModel.query.filter_by(id=id).first()
+        article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
         if not article_obj:
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
 
@@ -207,10 +207,10 @@ class Article(Base):
             'updated_at'      : self.datetime_to_timestamp(article_obj.updated_at)
         })
 
-    def partical_update(self, id):
+    def partical_update(self, uuid):
         '''
         @description: 更新文章部分字段
-        @param : 
+        @param path int uuid 文章唯一标识
         @return: 更新后完整的文章资源对象
         '''
         # body 验证
@@ -219,7 +219,7 @@ class Article(Base):
             raise APIException()
 
         # 判断文章ID是否存在
-        article_obj = ArticleModel.query.filter_by(id=id).first()
+        article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
         if not article_obj:
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
         
@@ -260,13 +260,13 @@ class Article(Base):
             'updated_at'      : self.datetime_to_timestamp(article_obj.updated_at)
         })
 
-    def delete(self, id):
+    def delete(self, uuid):
         '''
         @descripttion: 删除文章
-        @param path int 文章ID
+        @param path int uuid 文章唯一标识
         @return: 
         '''
-        article_obj = ArticleModel.query.filter_by(id=id).first()
+        article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
         if not article_obj:
             # 文章不存在
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
