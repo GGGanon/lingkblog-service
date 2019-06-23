@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-23 23:15:59
+@LastEditTime: 2019-06-23 23:22:57
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -210,7 +210,7 @@ class Article(Base):
     def partical_update(self, uuid):
         '''
         @description: 更新文章部分字段
-        @param : 
+        @param path int uuid 文章唯一标识
         @return: 更新后完整的文章资源对象
         '''
         # body 验证
@@ -263,7 +263,7 @@ class Article(Base):
     def delete(self, uuid):
         '''
         @descripttion: 删除文章
-        @param path int 文章ID
+        @param path int uuid 文章唯一标识
         @return: 
         '''
         article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
