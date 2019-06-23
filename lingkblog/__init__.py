@@ -3,19 +3,30 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 14:07:48
-@LastEditTime: 2019-06-18 17:57:20
+@LastEditTime: 2019-06-23 11:44:52
 '''
 import wtforms_json
 from flask import Flask, g, jsonify
+from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 
 from lingkblog.config.error.code import error_code
 from lingkblog.exceptions.api_exception import APIException
 
 
-db = SQLAlchemy()
-# 创建一个 Flask 实例
+# 自定义约束命名约定
+convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
+metadata = MetaData(naming_convention=convention)
 app = Flask(__name__, instance_relative_config=True)
+# 创建一个 Flask 实例
+db = SQLAlchemy(app, metadata=metadata)
+
 
 def create_app(test_config=None):
     '''
