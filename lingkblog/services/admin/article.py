@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-18 18:27:51
+@LastEditTime: 2019-06-21 18:51:07
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -12,6 +12,7 @@ import json
 import datetime
 
 from lingkblog import db
+from lingkblog.common.create_uuid import CreateUUID
 from lingkblog.services.base import Base
 from lingkblog.models.article import Article as ArticleModel
 from lingkblog.exceptions.api_exception import APIException
@@ -54,6 +55,7 @@ class Article(Base):
         for article_obj in article_pages.items:
             articles.append({
                 'id'         : article_obj.id,
+                'uuid'       : article_obj.uuid,
                 'title'      : article_obj.title,
                 'summary'    : article_obj.summary,
                 'created_at' : self.datetime_to_timestamp(article_obj.created_at),
@@ -81,6 +83,7 @@ class Article(Base):
         
         return self.return_success({
             'id'              : article_obj.id,
+            'uuid'            : article_obj.uuid,
             'title'           : article_obj.title,
             'content_type'    : article_obj.content_type,
             'status'          : article_obj.status,
@@ -105,6 +108,8 @@ class Article(Base):
         if not store_article_form.validate():
             raise APIException(err_msg=store_article_form.errors, err_key='validate_err')
 
+        uuid             = CreateUUID.get_uuid() # 生成 uuid
+        print(uuid)
         account_id       = g.account_id
         title            = self.request.json['title']
         summary          = self.request.json['summary']
@@ -119,6 +124,7 @@ class Article(Base):
 
         # 新增文章
         article_obj = ArticleModel(
+            uuid=uuid,
             account_id=account_id,
             title=title,
             summary=summary,
@@ -134,6 +140,7 @@ class Article(Base):
 
         return self.return_success({
             'id'              : article_obj.id,
+            'uuid'            : article_obj.uuid,
             'account_id'      : article_obj.account_id,
             'title'           : article_obj.title,
             'summary'         : article_obj.summary,
@@ -185,6 +192,8 @@ class Article(Base):
         db.session.commit()
 
         return self.return_success({
+            'id'              : article_obj.id,
+            'uuid'            : article_obj.uuid,
             'title'           : article_obj.title,
             'summary'         : article_obj.summary,
             'content_type'    : article_obj.content_type,
@@ -236,6 +245,8 @@ class Article(Base):
         db.session.commit()
 
         return self.return_success({
+            'id'              : article_obj.id,
+            'uuid'            : article_obj.uuid,
             'title'           : article_obj.title,
             'summary'         : article_obj.summary,
             'content_type'    : article_obj.content_type,

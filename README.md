@@ -23,10 +23,6 @@ We use SQLite3 as our database, so you need to install SQLite in your environmen
 Use the following commands to manage your database:
 
 ```Shell
-# The migrations directory will be created
-python3 manage.py db init
-# Create migration files
-python3 manage.py db migrate
 # Create tables
 python3 manage.py db upgrade
 ``` 

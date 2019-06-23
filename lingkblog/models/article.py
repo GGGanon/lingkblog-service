@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 11:12:59
-@LastEditTime: 2019-06-12 17:22:51
+@LastEditTime: 2019-06-23 11:51:59
 '''
 from sqlalchemy import Column, Integer, String, Text, JSON
 
@@ -18,6 +18,7 @@ class Article(Base, db.Model):
 
     __tablename__    = 'articles'
     id               = Column(Integer, primary_key=True, comment='文章ID')
+    uuid             = Column(String(39), nullable=False, unique=True)
     account_id       = Column(Integer, comment='发布者账号ID')
     title            = Column(String(99), comment='文章标题')
     summary          = Column(Text, comment='文章概要')
