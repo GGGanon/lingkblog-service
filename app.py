@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-02 01:43:27
-@LastEditTime: 2019-06-21 18:48:55
+@LastEditTime: 2019-06-26 22:36:31
 '''
 from lingkblog import create_app
 from lingkblog.common.jwt_auth import JWTAuth
@@ -14,14 +14,18 @@ from lingkblog.models.account import Account as AccountModel
 from flask_sqlalchemy import SQLAlchemy
 # from config import DATABASE
 from flask import g, request, make_response
+from flask_cors import CORS
 
 
 app = create_app()
+CORS(app)
+
 
 @app.before_request
 def check_auth_token():
     special_route = ['/admin-api/users/token']
-    if request.method != 'OPTIONS' and request.path not in special_route:
+    # if request.method != 'OPTIONS' and request.path not in special_route:
+    if request.path not in special_route:
         access_token = request.headers.get('Authorization')
         payload      = JWTAuth.decode_access_token(access_token)
         account_id   = payload['data']['id']
@@ -34,19 +38,19 @@ def check_auth_token():
         g.account_id  = account_id
         g.account_obj = account_obj
 
-@app.after_request
-def open_cors(response):
-    '''
-    @descripttion: 开启跨域调试
-    @param {type} response
-    @return: response
-    '''
-    # TODO: 区分正式与测试环境
-    response = make_response(response)
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type,Authorization'
-    return response
+# @app.after_request
+# def open_cors(response):
+#     '''
+#     @descripttion: 开启跨域调试
+#     @param {type} response
+#     @return: response
+#     '''
+#     # TODO: 区分正式与测试环境
+#     response = make_response(response)
+#     response.headers['Access-Control-Allow-Origin'] = '*'
+#     response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS'
+#     response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type,Authorization'
+#     return response
         
 if __name__ == "__main__":
     app.run()
