@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 15:40:11
-@LastEditTime: 2019-06-30 00:39:07
+@LastEditTime: 2019-06-30 00:57:32
 '''
 from lingkblog import db, app
 from lingkblog.config import site
@@ -47,7 +47,7 @@ class Site(Base):
         
         name = self.request.json['name']
         # 判断分类名称是否已存在
-        if ArticleCategoryModel.query.filter_by(name=name).first():
+        if ArticleCategoryModel.query.filter_by(name=name).first() is not None:
             raise APIException(err_key='site_article_category_exist')
 
         # 新增分类入库
@@ -89,8 +89,8 @@ class Site(Base):
         article_category_obj = ArticleCategoryModel.query.filter_by(id=id).update({'name': name})
         db.session.commit()
         return self.return_success({
-            'id': id,
-            'name': name,
+            'id': article_category_obj.id,
+            'name': article_category_obj.name,
         })
 
     def get_site_config(self):

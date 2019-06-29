@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-12 16:20:20
-@LastEditTime: 2019-06-19 00:40:41
+@LastEditTime: 2019-06-30 00:49:45
 '''
 import datetime
 from sqlalchemy.sql import and_
@@ -60,7 +60,6 @@ class Account(BaseService):
             'accounts': accounts
         })
 
-
     def store(self):
         '''
         @description: 新增账号
@@ -109,7 +108,7 @@ class Account(BaseService):
 
         # 判断账号是否存在
         account_obj = AccountModel.query.filter_by(id=id).first()
-        if not account_obj:
+        if account_obj is None:
             raise APIException(err_key='account_not_found')
 
         if 'name' in request_json:
@@ -140,7 +139,7 @@ class Account(BaseService):
         @return: 空文档
         '''
         account_obj = AccountModel.query.filter_by(id=id).first()
-        if not account_obj:
+        if account_obj is None:
             raise APIException(err_key='account_not_found')
         account_obj.deleted_at = datetime.datetime.now()
         db.session.commit()
