@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-03 23:03:33
-@LastEditTime: 2019-06-12 16:12:33
+@LastEditTime: 2019-06-30 00:50:03
 '''
 from lingkblog.common.jwt_auth import JWTAuth
 from lingkblog.common.validators.login_form import LoginForm
@@ -37,7 +37,7 @@ class User(BaseService):
 
         # 判断用户是否存在
         account_obj = AccountModel.query.filter_by(email=email).first()
-        if not account_obj:
+        if account_obj is None:
             # 用户不存在
             raise APIException(err_key='account_not_found')
 
