@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-23 23:22:57
+@LastEditTime: 2019-06-29 23:35:44
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -116,11 +116,10 @@ class Article(Base):
         content_type     = self.request.json['content_type']
         content          = self.request.json['content']
         content_markdown = self.request.json['content_markdown']
-        # TODO: word_count 计算
-        word_count  = 0
-        category_id = self.request.json['category_id']
-        tags        = self.request.json['tags']
-        status      = self.request.json['status'] if 'status' in self.request.json else ArticleModel.status_draft
+        word_count       = self.request.json['word_count']
+        category_id      = self.request.json['category_id']
+        tags             = self.request.json['tags']
+        status           = self.request.json['status'] if 'status' in self.request.json else ArticleModel.status_draft
 
         # 新增文章
         article_obj = ArticleModel(
@@ -173,11 +172,10 @@ class Article(Base):
         content_type     = self.request.json['content_type']
         content          = self.request.json['content']
         content_markdown = self.request.json['content_markdown']
-        # TODO: word_count 计算
-        word_count  = 0
-        category_id = self.request.json['category_id']
-        tags        = self.request.json['tags']
-        status      = self.request.json['status'] if 'status' in self.request.json else ArticleModel.status_draft
+        word_count       = self.request.json['word_count']
+        category_id      = self.request.json['category_id']
+        tags             = self.request.json['tags']
+        status           = self.request.json['status'] if 'status' in self.request.json else ArticleModel.status_draft
         # TODO: 是否增加更新人 updated_user
 
         article_obj.title = title
