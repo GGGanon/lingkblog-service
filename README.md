@@ -40,7 +40,7 @@ python app.py
 - [ ] Management API
   - [x] User login
   - [ ] Account system
-  - [ ] Article system
-  - [ ] Site configuration
+  - [x] Article system
+  - [x] Site configuration
 - [ ] Blog API
 - [ ] API docs
