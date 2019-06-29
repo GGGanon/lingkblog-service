@@ -3,7 +3,7 @@
 @version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-07 21:43:07
-@LastEditTime: 2019-06-29 23:35:44
+@LastEditTime: 2019-06-30 00:48:47
 '''
 from flask import g, jsonify
 from sqlalchemy.sql import and_
@@ -78,7 +78,7 @@ class Article(Base):
         @return: 
         '''
         article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
-        if not article_obj:
+        if article_obj is None:
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
         
         return self.return_success({
@@ -109,7 +109,6 @@ class Article(Base):
             raise APIException(err_msg=store_article_form.errors, err_key='validate_err')
 
         uuid             = CreateUUID.get_uuid() # 生成 uuid
-        print(uuid)
         account_id       = g.account_id
         title            = self.request.json['title']
         summary          = self.request.json['summary']
@@ -164,7 +163,7 @@ class Article(Base):
         # TODO: 参数验证
 
         article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
-        if not article_obj:
+        if article_obj is None:
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
 
         title            = self.request.json['title']
@@ -218,7 +217,7 @@ class Article(Base):
 
         # 判断文章ID是否存在
         article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
-        if not article_obj:
+        if article_obj is None:
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
         
         if 'title' in request_json:
@@ -265,7 +264,7 @@ class Article(Base):
         @return: 
         '''
         article_obj = ArticleModel.query.filter_by(uuid=uuid).first()
-        if not article_obj:
+        if article_obj is None:
             # 文章不存在
             raise APIException(err_key='article_not_found', http_status_code=http_status.HTTP_404_NOT_FOUND)
         article_obj.deleted_at = datetime.datetime.now()
