@@ -3,7 +3,7 @@
 @Version: v1.0
 @Author: JalanJiang
 @Date: 2019-06-06 12:53:50
-@LastEditTime: 2019-06-12 15:24:11
+@LastEditTime: 2019-06-30 00:06:09
 '''
 
 error_message = {
@@ -18,4 +18,5 @@ error_message = {
     13001: '文章不存在',
 
     14001: '文章分类已存在',
+    14002: '站点配置不存在',
 }
