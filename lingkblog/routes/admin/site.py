@@ -23,3 +23,13 @@ def article_category():
 def update_article_category(id):
     site = SiteService(request)
     return site.update_article_category(id)
+
+@bp.route('/config', methods=['GET'])
+def get_site_config():
+    site = SiteService(request)
+    return site.get_site_config()
+
+@bp.route('/config', methods=['PATCH'])
+def update_site_config():
+    site = SiteService(request)
+    return site.update_site_config()

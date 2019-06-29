@@ -10,3 +10,6 @@ JWT_LEEWAY = 604800
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_DATABASE_URI = 'sqlite:////Users/jalan/lingkblog_test.db'
 DATABASE = 'sqlite:////Users/jalan/lingkblog_test.db'
+
+# Site
+SITE_CONFIG_ID = 1
